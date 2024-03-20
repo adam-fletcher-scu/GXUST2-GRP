@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/AdamsFolder/AdamsScenes/AdamsMenu.unity
+    guid: 8e6cb1f3db1db244b95cf5ded539ec9d
+  - enabled: 1
+    path: Assets/AdamsFolder/AdamsScenes/AdamsScene.unity
+    guid: 81c1243bd4b798747a5ea85eb9af63c2
   m_configObjects: {}
