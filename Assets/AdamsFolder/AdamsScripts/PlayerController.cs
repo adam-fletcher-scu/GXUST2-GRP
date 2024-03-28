@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private int count;
     public TextMeshProUGUI countText;
+    public GameObject winPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -48,10 +49,22 @@ public class PlayerController : MonoBehaviour
             SetCountText();
             other.gameObject.SetActive(false);
         }
+
+        if (other.gameObject.CompareTag("BadPickup"))
+        {
+            count = count - 1;
+            SetCountText();
+            other.gameObject.SetActive(false);
+        }
     }
 
     public void SetCountText()
     {
         countText.text = "Count: " + count.ToString();
+
+        if(count >= 1)
+        {
+            winPanel.SetActive(true);
+        }
     }
 }
