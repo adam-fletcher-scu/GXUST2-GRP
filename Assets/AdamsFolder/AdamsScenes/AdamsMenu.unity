@@ -687,7 +687,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Other Scene
+  m_text: Other Scenes
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: adfbb3c0d1530b343a09d957fd39cea9, type: 2}
   m_sharedMaterial: {fileID: 2200971861230505544, guid: adfbb3c0d1530b343a09d957fd39cea9, type: 2}
