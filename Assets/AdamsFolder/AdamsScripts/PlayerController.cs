@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    public AudioSource gdAudio;
     private Rigidbody rb;
+    Animator animator;
 
     private float moveX;
     private float moveY;
@@ -16,11 +19,13 @@ public class PlayerController : MonoBehaviour
     private int count;
     public TextMeshProUGUI countText;
     public GameObject winPanel;
+    public GameObject losePanel;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();    
         count = 0;
         SetCountText();
     }
@@ -41,10 +46,51 @@ public class PlayerController : MonoBehaviour
         rb.AddForce (movement * moveSpeed);
     }
 
+    public void Update()
+    {
+        bool forward = Input.GetKey ("w");
+        bool backward = Input.GetKey("s");
+        bool jumping = Input.GetKey("space");
+
+        if (jumping)
+        {
+            animator.SetBool("isJumping", true);
+        }
+
+        if (!jumping)
+        {
+            animator.SetBool("isJumping", false);
+        }
+
+
+        if (forward)
+        {
+            animator.SetBool("isWalking", true);
+        }
+
+        if (!forward)
+        {
+            animator.SetBool("isWalking", false);
+        }
+
+        if (backward)
+        {
+            animator.SetBool("isBackward", true);
+        }
+
+        if (!backward)
+        {
+            animator.SetBool("isBackward", false);
+        }
+
+
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Pickup"))
         {
+            gdAudio.Play();
             count = count + 1;
             SetCountText();
             other.gameObject.SetActive(false);
@@ -55,6 +101,8 @@ public class PlayerController : MonoBehaviour
             count = count - 1;
             SetCountText();
             other.gameObject.SetActive(false);
+            animator.SetTrigger("deathTouch");            
+            StartCoroutine("PlayDeath", "AdamsScene");
         }
     }
 
@@ -62,9 +110,18 @@ public class PlayerController : MonoBehaviour
     {
         countText.text = "Count: " + count.ToString();
 
-        if(count >= 1)
+        if(count >= 5)
         {
             winPanel.SetActive(true);
         }
+    }
+
+    IEnumerator PlayDeath(string sceneName)
+    {
+        yield return new WaitForSeconds(5);
+        losePanel.SetActive(true);
+        yield return new WaitForSeconds(5);
+        losePanel.SetActive(false);
+        SceneManager.LoadScene(sceneName);
     }
 }
